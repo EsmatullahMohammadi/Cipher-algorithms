@@ -77,8 +77,12 @@ function MultiplicativeCipher() {
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                         type="number"
                         value={key}
-                        onChange={(e) => setKey(parseInt(e.target.value))}
+                        onChange={(e) => {
+                          setKey(parseInt(e.target.value))
+                          setErrors(false);
+                        }}
                     />
+                    <label className="block mb-2 text-red-500">{errors?"your key is not valid!":""}</label>
                 </div>
                 <div className="mb-4">
                     <button
@@ -95,11 +99,11 @@ function MultiplicativeCipher() {
                     </button>
                 </div>
                 <div className="block my-4">
-                    <span className="font-semibold">Encrypted Message:</span> {encryptedMessage}
+                    <span className="mr-2 font-semibold">Encrypted Message:</span>{encryptedMessage}
                 </div>
                 <div className="block">
-                    <span className={`font-semibold`}>Decrypted Message:</span> 
-                    <span className={`font-semibold ${errors===false? "":"text-red-500"}`}>{errors===false?decryptedMessage:"your key is not valide!"}</span>
+                    <span className={`font-semibold mr-2`}>Decrypted Message:</span> 
+                    <span className={`font-semibold ${errors===false? "":"text-red-500"}`}>{errors?"false":decryptedMessage}</span>
                 </div>
             </div>
         </div>

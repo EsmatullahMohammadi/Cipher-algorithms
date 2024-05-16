@@ -83,10 +83,10 @@ function AdditiveCipher() {
         <button className="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700" onClick={decryptMessage}>Decrypt</button>
         <br />
         <div className="block my-4">
-          <span className="font-semibold">Encrypted Message:</span> {encryptedMessage}
+          <span className="mr-2 font-semibold">Encrypted Message:</span>{encryptedMessage}
         </div>
         <div className="block">
-          <span className="font-semibold">Decrypted Message:</span> {decryptedMessage}
+          <span className="mr-2 font-semibold">Decrypted Message:</span>{decryptedMessage}
         </div>
       </div>
     </div>

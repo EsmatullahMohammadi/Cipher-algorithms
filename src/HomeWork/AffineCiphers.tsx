@@ -6,6 +6,7 @@ function AffineCipher() {
   const [bKey, setBKey] = useState(0);
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
+  const [errors,setErrors]= useState(false);
 
   const encryptMessage = () => {
     let encryptedText = '';
@@ -31,20 +32,35 @@ function AffineCipher() {
         return i;
       }
     }
-    return 1;
+    setErrors(true);
+    return 0;
   };
 
   const decryptMessage = () => {
     let decryptedText = '';
     let modInv = modInverse(aKey, 26);
-    for (let i = 0; i < message.length; i++) {
-      let charCode = message.charCodeAt(i);
+    for (let i = 0; i < encryptedMessage.length; i++) {
+      let charCode = encryptedMessage.charCodeAt(i);
       if (charCode >= 65 && charCode <= 90) {
         // Uppercase letters
-        decryptedText += String.fromCharCode((modInv * (charCode - 65 - bKey + 26)) % 26 + 65);
+        if((modInv * (charCode - 65 - bKey)) < 0){
+            const p = modInv * (charCode - 65 - bKey);
+            const c = p-Math.floor(p/26)*26;
+            decryptedText += String.fromCharCode(c % 26 + 65);
+        }else{
+            decryptedText += String.fromCharCode((modInv * (charCode - 65 - bKey)) % 26 + 65);
+        }
+        
       } else if (charCode >= 97 && charCode <= 122) {
         // Lowercase letters
-        decryptedText += String.fromCharCode((modInv * (charCode - 97 - bKey + 26)) % 26 + 97);
+        if((modInv * (charCode - 97 - bKey)) < 0){
+            const p = modInv * (charCode - 97 - bKey );
+            const c = p-Math.floor(p/26)*26;
+            decryptedText += String.fromCharCode(c % 26 + 97);
+        }else{
+            decryptedText += String.fromCharCode((modInv * (charCode - 97 - bKey )) % 26 + 97);
+        }
+        
       } else {
         // Non-alphabetic characters remain unchanged
         decryptedText += message.charAt(i);
@@ -74,8 +90,12 @@ function AffineCipher() {
         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
         type="number"
         value={aKey}
-        onChange={(e) => setAKey(parseInt(e.target.value))}
+        onChange={(e) =>{
+             setAKey(parseInt(e.target.value));
+             setErrors(false);
+            }}
       />
+      <label className="block mb-2 text-red-500">{errors?"your key is not valid for dycryption!":""}</label>
     </div>
     <div className="mb-4">
       <label className="block mb-2">B Key:</label>
@@ -101,11 +121,11 @@ function AffineCipher() {
       </button>
     </div>
     <div className="block my-4">
-      <span className="font-semibold">Encrypted Message:</span> {encryptedMessage}
+      <span className="mr-2 font-semibold">Encrypted Message:</span>{encryptedMessage}
     </div>
     <div className="block">
-      <span className={`font-semibold `}>
-        Decrypted Message: { decryptedMessage}
+      <span className={`font-semibold mr-2`}>
+        Decrypted Message: <span className={`font-semibold ${errors===false? "":"text-red-500"}`}>{ errors?"false": decryptedMessage}</span>
       </span>
     </div>
   </div>

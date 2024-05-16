@@ -6,7 +6,6 @@ function AffineCipher() {
   const [bKey, setBKey] = useState(0);
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
-  const [errors,setErrors]=useState(false);
 
   const encryptMessage = () => {
     let encryptedText = '';
@@ -105,8 +104,8 @@ function AffineCipher() {
       <span className="font-semibold">Encrypted Message:</span> {encryptedMessage}
     </div>
     <div className="block">
-      <span className={`font-semibold ${errors === false ? "" : "text-red-500"}`}>
-        Decrypted Message: {errors === false ? decryptedMessage : "Your key is not valid!"}
+      <span className={`font-semibold `}>
+        Decrypted Message: { decryptedMessage}
       </span>
     </div>
   </div>

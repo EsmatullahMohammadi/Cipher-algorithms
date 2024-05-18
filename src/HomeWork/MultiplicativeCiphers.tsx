@@ -111,4 +111,4 @@ function MultiplicativeCipher() {
   );
 }
 
-export default MultiplicativeCipher;
+export default MultiplicativeCipher
